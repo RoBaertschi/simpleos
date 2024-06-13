@@ -1,3 +1,6 @@
+const console = @import("console.zig");
+const std = @import("std");
+
 const ALIGN = 1 << 0;
 const MEMINFO = 1 << 1;
 const MAGIC = 0x1BADB002;
@@ -28,4 +31,20 @@ export fn _start() callconv(.Naked) noreturn {
     while (true) {}
 }
 
-export fn kmain() void {}
+export fn kmain() void {
+    console.init();
+    console.puts("Hello World!");
+    @panic("panic lol");
+}
+
+pub fn panic(msg: []const u8, error_return_trace: ?*std.builtin.StackTrace, size: ?usize) noreturn {
+    _ = error_return_trace; // autofix
+    _ = size;
+    @setCold(true);
+
+    //error_return_trace.?.format(comptime fmt: []const u8, options: std.fmt.FormatOptions, writer: anytype)
+    console.setColor(@intFromEnum(console.ConsoleColors.Red));
+    console.printf("\nCRITICAL PANIC OCCURED: {s}", .{msg});
+
+    while (true) {}
+}
