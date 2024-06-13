@@ -20,6 +20,7 @@ export fn _start() callconv(.Naked) noreturn {
     asm volatile (
         \\ movl %[stk], %esp
         \\ movl %esp, %ebp
+        \\ call kmain
         :
         : [stk] "{ecx}" (@intFromPtr(&stack_bytes_slice) + @sizeOf(@TypeOf(stack_bytes_slice))),
     );
@@ -27,4 +28,4 @@ export fn _start() callconv(.Naked) noreturn {
     while (true) {}
 }
 
-fn kmain() void {}
+export fn kmain() void {}
