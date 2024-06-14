@@ -65,14 +65,24 @@ pub fn putChar(c: u8) void {
     if (column == VGA_WIDTH or c == '\n') {
         column = 0;
         row += 1;
-        if (row == VGA_HEIGHT)
-            row = 0;
+        if (row == VGA_HEIGHT) {
+            scroll();
+            row -= 1;
+        }
     }
 }
 
 pub fn puts(data: []const u8) void {
     for (data) |c|
         putChar(c);
+}
+
+pub fn scroll() void {
+    for (0..VGA_HEIGHT - 1) |i| {
+        const start_line = i * VGA_WIDTH;
+        const line_after = (i + 1) * VGA_WIDTH;
+        @memcpy(buffer[start_line .. start_line + VGA_WIDTH], buffer[line_after .. line_after + VGA_WIDTH]);
+    }
 }
 
 pub const writer = Writer(void, error{}, callback){ .context = {} };

@@ -34,7 +34,10 @@ export fn _start() callconv(.Naked) noreturn {
 export fn kmain() void {
     console.init();
     console.puts("Hello World!");
-    @panic("panic lol");
+
+    for (0..100) |i| {
+        console.printf("{}\n", .{i});
+    }
 }
 
 pub fn panic(msg: []const u8, error_return_trace: ?*std.builtin.StackTrace, size: ?usize) noreturn {

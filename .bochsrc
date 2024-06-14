@@ -91,7 +91,7 @@ config_interface: textconfig
 #display_library: nogui
 #display_library: rfb
 #display_library: sdl
-display_library: sdl2
+display_library: sdl2, options="gui_debug"
 #display_library: term
 #display_library: vncsrv
 # "traphotkeys" - system hotkeys not handled by host OS, but sent to guest
@@ -360,7 +360,7 @@ cpu: cpuid_limit_winnt=0
 # used all allocated host memory and wants more.
 #
 #=======================================================================
-memory: guest=512, host=256
+memory: guest=1024, host=512
 
 #=======================================================================
 # ROMIMAGE:
